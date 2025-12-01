@@ -1,39 +1,25 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Variant_TwinStick/Gameplay/Node.h"
+#include "Variant_TwinStick/Gameplay/Room.h"
 
 // Sets default values
-ANode::ANode() : ANode(0,0)
+ARoom::ARoom()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	prefab = this;
 
 }
-
-ANode::ANode(int x, int y) : coordX(x), coordY(y)
-{
-	bIsNodeSet = false;
-}
-
-void* ANode::operator new(size_t size)
-{
-	void* ptr = ::operator new(size);
-	return ptr;
-}
-
-
 
 // Called when the game starts or when spawned
-void ANode::BeginPlay()
+void ARoom::BeginPlay()
 {
 	Super::BeginPlay();
 	
 }
 
 // Called every frame
-void ANode::Tick(float DeltaTime)
+void ARoom::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 

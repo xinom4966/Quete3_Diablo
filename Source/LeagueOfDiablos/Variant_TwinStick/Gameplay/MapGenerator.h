@@ -19,6 +19,7 @@ protected:
 	UPROPERTY(EditAnywhere, Category ="GridData")
 	int height;
 
+	UPROPERTY()
 	TArray<ANode*> grid;
 	
 	UPROPERTY(EditAnywhere, Category="NodeData")

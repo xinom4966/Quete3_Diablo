@@ -25,6 +25,10 @@ public:
 	UPROPERTY(EditAnywhere, Category="NodeData")
 	TArray<TSubclassOf<ANode>> CompatibleNodesRight;
 
+	UPROPERTY(EditAnywhere, Category="NodeData")
+	AActor* prefab; 
+
+	UPROPERTY()
 	//Used to store the different states a node can be during wave function collapse.
 	TArray<ANode*> PossibleStates;
 
@@ -37,6 +41,7 @@ public:
 	// Sets default values for this actor's properties
 	ANode();
 	ANode(int x, int y);
+	void* operator new(size_t size);
 
 protected:
 	// Called when the game starts or when spawned

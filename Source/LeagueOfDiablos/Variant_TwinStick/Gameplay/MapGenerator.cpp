@@ -23,21 +23,6 @@ void AMapGenerator::BeginPlay()
 		UE_LOG(LogTemp, Error, TEXT("No nodeTemplates in array."));
 		return;
 	}
-	for (int i = 0; i < width; i++)
-	{
-		for (int j = 0; j < height; j++)
-		{
-			ANode node = ANode(i,j);
-			grid.Add(&node);
-		}
-	}
-	for (ANode* node : grid)
-	{
-		for (TSubclassOf<ANode> temp : nodeTemplates)
-		{
-			node->PossibleStates.Add(Cast<ANode>(temp));
-		}
-	}
 	WaveFunctionCollapse();
 }
 
@@ -50,13 +35,35 @@ void AMapGenerator::Tick(float DeltaTime)
 
 void AMapGenerator::WaveFunctionCollapse()
 {
+	//Initializing the grid
+	for (int i = 0; i < width; i++)
+	{
+		for (int j = 0; j < height; j++)
+		{
+			ANode* node = new ANode(i,j);
+			grid.Add(node);
+		}
+	}
+	for (ANode* node : grid)
+	{
+		for (TSubclassOf<ANode> temp : nodeTemplates)
+		{
+			node->PossibleStates.Add(Cast<ANode>(temp));
+		}
+	}
+	
 	int currentIndex = 0;
 	bool mapComplete = false;
 	ANode* spawnedNode;
 
 	while (!mapComplete)
 	{
-		//All possible states of the current node crash into one definitive state.
+		//All possible states of the current node crash into one definitive stat
+		if (grid.Num() == 0)
+		{
+			UE_LOG(LogTemp, Error, TEXT("The grid is empty, the garbage collector needs to collect me."));
+			return;
+		}
 		int randomIndex = FMath::FRandRange(0.0, grid[currentIndex]->PossibleStates.Num()-1);
 		ANode* tempNode = grid[currentIndex]->PossibleStates[randomIndex];
 		grid[currentIndex] = tempNode;
@@ -69,7 +76,7 @@ void AMapGenerator::WaveFunctionCollapse()
 		spawnedNode = grid[currentIndex];
 
 		//Getting the neighbours of the current node.
-		TArray<ANode*> neighbours;
+		TArray<ANode*> neighbours = TArray<ANode*>();
 		for (int i = -1; i <= 1; i++)
 		{
 			for (int j = -1; j <= 1; j++)
